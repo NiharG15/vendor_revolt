@@ -35,13 +35,13 @@ PRODUCT_PACKAGES += \
     AppWidgetPicker \
     LatinImeDictionaryPack \
     mGerrit \
-    PermissionsManager \
     Superuser \
-    Su 
+    su 
 
 # CM Packages
 PRODUCT_PACKAGES += \
     LockClock \
+    BluetoothExt
 
 # Paranoid Packages
 PRODUCT_PACKAGES += \
@@ -65,7 +65,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.enable.amr.wideband=1 \
     windowsmgr.max_events_per_sec=240 \
     ro.kernel.android.checkjni=0 \
-    persist.sys.root_access=3
+    ro.adb.secure=0 \
+    persist.sys.root_access=3 \
+    ro.build.selinux=1 
 
 PRODUCT_COPY_FILES += \
     vendor/revolt/prebuilt/common/lib/libmicrobes_jni.so:system/lib/libmicrobes_jni.so \
@@ -77,8 +79,21 @@ PRODUCT_COPY_FILES += \
     vendor/revolt/prebuilt/common/etc/init.local.rc:root/init.revolt.rc \
     vendor/revolt/prebuilt/common/etc/init.d/00start:system/etc/init.d/00start \
     vendor/revolt/prebuilt/common/etc/init.d/01sysctl:system/etc/init.d/01sysctl \
+    vendor/revolt/prebuilt/common/etc/init.d/50selinuxrelabel:system/etc/init.d/50selinuxrelabel \
     vendor/revolt/prebuilt/common/etc/sysctl.conf:system/etc/sysctl.conf \
     vendor/revolt/prebuilt/common/bin/sysinit:system/bin/sysinit
+
+# Tweaks
+PRODUCT_PROPERTY_OVERRIDES += \
+        debug.performance.tuning=1 \
+        video.accelerate.hw=1 \
+        persist.sys.purgeable_assets=1 \
+        windowsmgr.max_events_per_sec=90 \
+        ro.max.fling_velocity=12000 \
+        ro.min.fling_velocity=8000 \
+        pm.sleep_mode=1 \
+        ro.ril.disable.power.collapse=0 \
+        ro.ril.fast.dormancy.rule=0
 
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
@@ -150,4 +165,6 @@ include frameworks/base/data/sounds/NewAudio.mk
 # Extra Ringtones
 #include frameworks/base/data/sounds/AudioPackageNewWave.mk
 
-
+# World APN
+PRODUCT_COPY_FILES += \
+    vendor/revolt/prebuilt/common/etc/apns-conf.xml:system/etc/apns-conf.xml
